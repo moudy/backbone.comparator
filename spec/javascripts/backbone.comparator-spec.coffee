@@ -1,4 +1,11 @@
 describe 'backbone.comparator', ->
+  class MyModel extends Backbone.Model
+    reversedName: -> @get('name').split('').reverse().join('')
+
+  class MyCollection extends Backbone.Collection
+    model: MyModel
+    order: 'name'
+
   collection = null
 
   describe 'attribute ordering', ->
@@ -6,10 +13,9 @@ describe 'backbone.comparator', ->
       data = [ { id: 1, name: 'B' }
                { id: 3, name: 'A' }
                { id: 2, name: 'C' } ]
-      collection = new Backbone.Collection(data)
+      collection = new MyCollection(data)
 
     it 'orders by attribute', ->
-      collection.order = 'name'
       collection.sort()
 
       expect(collection.at(0).get('name')).toEqual('A')
@@ -29,7 +35,7 @@ describe 'backbone.comparator', ->
       data = [ { id: 1, name: 'A', price: 3 }
                { id: 3, name: 'C', price: 2 }
                { id: 2, name: 'A', price: 3} ]
-      collection = new Backbone.Collection(data)
+      collection = new MyCollection(data)
 
     it 'orders by attribute with a fallback', ->
       collection.order = 'name, id'
@@ -65,12 +71,6 @@ describe 'backbone.comparator', ->
 
   describe 'method ordering', ->
     beforeEach ->
-      class MyModel extends Backbone.Model
-        reversedName: -> @get('name').split('').reverse().join('')
-
-      class MyCollection extends Backbone.Collection
-        model: MyModel
-
       data = [ { id: 1, name: 'AZ', price: 3 }
                { id: 3, name: 'CY', price: 2 }
                { id: 2, name: 'AX', price: 3} ]

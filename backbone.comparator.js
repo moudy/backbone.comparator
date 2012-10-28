@@ -9,40 +9,42 @@
     return obj.get(string);
   };
 
-  _.extend(Collection.prototype, {
+  _defaultComparator = function(a, b) {
+    var orders = _.result(this, 'order').split(_splitter)
+      , order, direction, aResult, bResult;
 
-    comparator: function(a, b) {
-      // Do nothing if no order is specified
-      if (!this.order) return false;
+    // Loop through order declarations until condition is satisfied
+    // Will only run through loop more than once if equal values are encountered
+    while(orders.length) {
+      // Split on space to get value and order direction
+      order = orders.shift().split(' ');
 
-      var orders = _.result(this, 'order').split(_splitter)
-        , order, direction, aResult, bResult;
+      // Default to ascending order
+      direction = order[1] === 'desc' ? 1 : -1;
 
-      // Loop through order declarations until condition is satisfied
-      // Will only run through loop more than once if equal values are encountered
-      while(orders.length) {
-        // Split on space to get value and order direction
-        order = orders.shift().split(' ');
+      // Get desired comparator value
+      aResult = _getResult(a, order[0]);
+      bResult = _getResult(b, order[0]);
 
-        // Default to ascending order
-        direction = order[1] === 'desc' ? 1 : -1;
-
-        // Get desired comparator value
-        aResult = _getResult(a, order[0]);
-        bResult = _getResult(b, order[0]);
-
-        // Do the actual comparison
-        if (aResult < bResult) {
-          return direction;
-        } else if (aResult > bResult) {
-          return -direction;
-        }
-
+      // Do the actual comparison
+      if (aResult < bResult) {
+        return direction;
+      } else if (aResult > bResult) {
+        return -direction;
       }
 
-      return 0;
     }
 
+    return 0;
+  };
+
+  var _Collection = Backbone.Collection;
+
+  Backbone.Collection = _Collection.extend({
+    constructor: function () {
+      if (this.order) this.comparator = _defaultComparator;
+      _Collection.apply(this, Array.prototype.slice.call(arguments));
+    }
   });
 
 }).call(this, _, Backbone.Collection);

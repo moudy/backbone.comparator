@@ -4,7 +4,37 @@
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   describe('backbone.comparator', function() {
-    var collection;
+    var MyCollection, MyModel, collection;
+    MyModel = (function(_super) {
+
+      __extends(MyModel, _super);
+
+      function MyModel() {
+        return MyModel.__super__.constructor.apply(this, arguments);
+      }
+
+      MyModel.prototype.reversedName = function() {
+        return this.get('name').split('').reverse().join('');
+      };
+
+      return MyModel;
+
+    })(Backbone.Model);
+    MyCollection = (function(_super) {
+
+      __extends(MyCollection, _super);
+
+      function MyCollection() {
+        return MyCollection.__super__.constructor.apply(this, arguments);
+      }
+
+      MyCollection.prototype.model = MyModel;
+
+      MyCollection.prototype.order = 'name';
+
+      return MyCollection;
+
+    })(Backbone.Collection);
     collection = null;
     describe('attribute ordering', function() {
       beforeEach(function() {
@@ -21,10 +51,9 @@
             name: 'C'
           }
         ];
-        return collection = new Backbone.Collection(data);
+        return collection = new MyCollection(data);
       });
       it('orders by attribute', function() {
-        collection.order = 'name';
         collection.sort();
         expect(collection.at(0).get('name')).toEqual('A');
         expect(collection.at(1).get('name')).toEqual('B');
@@ -56,7 +85,7 @@
             price: 3
           }
         ];
-        return collection = new Backbone.Collection(data);
+        return collection = new MyCollection(data);
       });
       it('orders by attribute with a fallback', function() {
         collection.order = 'name, id';
@@ -89,35 +118,7 @@
     });
     return describe('method ordering', function() {
       beforeEach(function() {
-        var MyCollection, MyModel, data;
-        MyModel = (function(_super) {
-
-          __extends(MyModel, _super);
-
-          function MyModel() {
-            return MyModel.__super__.constructor.apply(this, arguments);
-          }
-
-          MyModel.prototype.reversedName = function() {
-            return this.get('name').split('').reverse().join('');
-          };
-
-          return MyModel;
-
-        })(Backbone.Model);
-        MyCollection = (function(_super) {
-
-          __extends(MyCollection, _super);
-
-          function MyCollection() {
-            return MyCollection.__super__.constructor.apply(this, arguments);
-          }
-
-          MyCollection.prototype.model = MyModel;
-
-          return MyCollection;
-
-        })(Backbone.Collection);
+        var data;
         data = [
           {
             id: 1,
