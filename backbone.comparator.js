@@ -1,4 +1,5 @@
 (function(_, Collection){
+  'use strict';
 
   // Split on comma + space for order declaration
   var _splitter = /,\s+/;
@@ -9,7 +10,7 @@
     return obj.get(string);
   };
 
-  _defaultComparator = function(a, b) {
+  var _defaultComparator = function(a, b) {
     var orders = _.result(this, 'order').split(_splitter)
       , order, direction, aResult, bResult;
 
