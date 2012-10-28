@@ -8,17 +8,17 @@ collection much like you would declare order in SQL.
 Define an order property on the collection. This can be a string or a
 function that returns a string.
 
-To sort by a model's attribute `sort: 'lastName'`
+To order by a model's attribute `order: 'lastName'`
 
-To sort by the result of a method on the model and an '@' `sort: '@fullName'`
+To order by the result of a method on the model and an '@' `order: '@fullName'`
 
 To fall back to another value in case of a tie add 1 or more fallback
-values seperated by a comma `sort: 'lastName, firstName'`
+values seperated by a comma `order: 'lastName, firstName'`
 
 The order is ascending by default. To make it descending add 'desc' to
-the value `sort: 'lastName desc'`
+the value `order: 'lastName desc'`
 
-You can change the order direction for fallback values as well `sort:
+You can change the order direction for fallback values as well `order:
 'lastName, firstName desc'`
 
 
