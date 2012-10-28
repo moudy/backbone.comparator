@@ -18,7 +18,7 @@ values seperated by a comma `sort: 'lastName, firstName'`
 The order is ascending by default. To make it descending add 'desc' to
 the value `sort: 'lastName desc'`
 
-You can change the order direction fallback values as well `sort:
+You can change the order direction for fallback values as well `sort:
 'lastName, firstName desc'`
 
 
