@@ -1,4 +1,4 @@
-(function(_, Collection){
+(function(_, Backbone){
   'use strict';
 
   // Split on comma + space for order declaration
@@ -48,4 +48,4 @@
     }
   });
 
-}).call(this, _, Backbone.Collection);
+}).call(this, _, Backbone);
