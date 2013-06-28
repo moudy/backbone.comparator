@@ -1,4 +1,3 @@
-
 /*global require: false, define: false, exports: fasle, module: false*/
 
 (function (root, factory) {
@@ -27,7 +26,7 @@
     return obj.get(string);
   };
 
-  Backbone.Comparator = {
+  var Comparator = {
     comparator: function(a, b) {
       var order, direction, aResult, bResult;
 
@@ -43,7 +42,7 @@
         order = orders.shift().split(' ');
 
         // Default to ascending order
-        direction = order[1] === 'desc' ? 1 : -1;
+        direction = order[1] && order[1].toLowerCase() === 'desc' ? 1 : -1;
 
         // Get desired comparator value
         aResult = getResult(a, order[0]);
@@ -57,5 +56,9 @@
       return 0;
     }
   };
+
+  Backbone.Comparator = Comparator;
+
+  return Comparator;
 
 }));
