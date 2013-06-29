@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Backbone.comparator by moudy</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Backbone.comparator</h1>
+        <p>SQL style order declaration for Backbone collections</p>
+
+        <p class="view"><a href="https://github.com/moudy/backbone.comparator">View the Project on GitHub <small>moudy/backbone.comparator</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/moudy/backbone.comparator/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/moudy/backbone.comparator/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/moudy/backbone.comparator">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="backbone-comparator" class="anchor" href="#backbone-comparator"><span class="octicon octicon-link"></span></a>Backbone Comparator</h1>
+
+<p>A comparator method that allows for declaring the order of a Backbone
+collection much like you would declare order in SQL.</p>
+
+<hr><p>Define an order property on the collection. This can be a string or a
+function that returns a string.</p>
+
+<p>To order by a model's attribute <code>order: 'lastName'</code></p>
+
+<p>To order by the result of a method on the model and an '@' <code>order: '@fullName'</code></p>
+
+<p>To fall back to another value in case of a tie add 1 or more fallback
+values seperated by a comma <code>order: 'lastName, firstName'</code></p>
+
+<p>The order is ascending by default. To make it descending add 'desc' to
+the value <code>order: 'lastName desc'</code></p>
+
+<p>You can change the order direction for fallback values as well <code>order:
+'lastName, firstName desc'</code></p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">User</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Model</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">karma</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'points'</span><span class="p">)</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'upvotes'</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">Users</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Collection</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+
+  <span class="c1">// By firstName attribute in ascending order</span>
+  <span class="nx">order</span><span class="o">:</span> <span class="s1">'firstName'</span>
+
+  <span class="c1">// By firstName attribute in descending order</span>
+  <span class="nx">order</span><span class="o">:</span> <span class="s1">'firstName desc'</span>
+
+  <span class="c1">// By firstName in ascending order and fallback to last name in descending order</span>
+  <span class="nx">order</span><span class="o">:</span> <span class="s1">'firstName, lastName desc'</span>
+
+  <span class="c1">// By method</span>
+  <span class="nx">order</span><span class="o">:</span> <span class="s1">'@karma'</span>
+
+  <span class="c1">// By method in descending order and fall back to attribute</span>
+  <span class="nx">order</span><span class="o">:</span> <span class="s1">'@karma desc, lastName'</span>
+
+<span class="p">});</span>
+
+</pre></div>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/moudy">moudy</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
