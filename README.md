@@ -48,4 +48,11 @@ var Users = Backbone.Collection.extend({
 
 });
 
+// Extend collection with comparator function
+_.extend Users.prototype, Backbone.Comparator
+
+// You can extend Backbone.Collection so all collections have this functionality but
+// that means every collection in you app needs an order property
+_.extend(Backbone.Collection.prototype, Backbone.Comparator)
+
 ```
